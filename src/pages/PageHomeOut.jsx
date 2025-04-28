@@ -19,11 +19,20 @@ const PageHomeOut = () => {
     e.target.blur();
   };
 
+  const onlyAllowNumbers = (e) => {
+    const value = e.target.value;
+    // Solo permitir dígitos y punto decimal
+    if (/^\d*\.?\d*$/.test(value)) {
+      if (e.target.name === 'metroPorTendida') setMetroPorTendida(value);
+      if (e.target.name === 'cantidadPorTendida') setCantidadPorTendida(value);
+      if (e.target.name === 'cantidadARealizar') setCantidadARealizar(value);
+    }
+  };
+
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-gray-900 p-4 text-white">
       <style>
         {`
-          /* Eliminar flechas de los inputs tipo number */
           input[type=number]::-webkit-inner-spin-button,
           input[type=number]::-webkit-outer-spin-button {
             -webkit-appearance: none;
@@ -42,9 +51,11 @@ const PageHomeOut = () => {
           <div>
             <label className="block text-sm font-medium text-gray-300 mb-1">Metro por tendida:</label>
             <input
-              type="number"
+              type="text"
+              inputMode="decimal"
+              name="metroPorTendida"
               value={metroPorTendida}
-              onChange={(e) => setMetroPorTendida(e.target.value)}
+              onChange={onlyAllowNumbers}
               onWheel={handleWheel}
               className="w-full border border-gray-600 rounded-xl p-2 bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-blue-400"
             />
@@ -53,9 +64,11 @@ const PageHomeOut = () => {
           <div>
             <label className="block text-sm font-medium text-gray-300 mb-1">Cantidad por tendida:</label>
             <input
-              type="number"
+              type="text"
+              inputMode="numeric"
+              name="cantidadPorTendida"
               value={cantidadPorTendida}
-              onChange={(e) => setCantidadPorTendida(e.target.value)}
+              onChange={onlyAllowNumbers}
               onWheel={handleWheel}
               className="w-full border border-gray-600 rounded-xl p-2 bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-blue-400"
             />
@@ -64,9 +77,11 @@ const PageHomeOut = () => {
           <div>
             <label className="block text-sm font-medium text-gray-300 mb-1">Cantidad a realizar:</label>
             <input
-              type="number"
+              type="text"
+              inputMode="numeric"
+              name="cantidadARealizar"
               value={cantidadARealizar}
-              onChange={(e) => setCantidadARealizar(e.target.value)}
+              onChange={onlyAllowNumbers}
               onWheel={handleWheel}
               className="w-full border border-gray-600 rounded-xl p-2 bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-blue-400"
             />
@@ -74,7 +89,7 @@ const PageHomeOut = () => {
 
           <div className="mt-6 p-4 bg-gray-700 rounded-xl text-center">
             <h2 className="text-lg font-semibold text-gray-300">Metros a comprar:</h2>
-            <p className="text-3xl text-blue-400 font-bold mt-2">{calcularMetros().toFixed(2)}</p>
+            <p className="text-3xl text-blue-400 font-bold mt-2">{calcularMetros().toFixed(2)} metros</p>
           </div>
         </div>
       </div>
